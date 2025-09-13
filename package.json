@@ -1,0 +1,34 @@
+{
+  "name": "ai-customer-support-chatbot",
+  "version": "1.0.0",
+  "description": "AI-powered customer support chatbot with responsive frontend",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static files ready for deployment'",
+    "test": "node test-api.js && node test-kb-implementation.js",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel",
+    "logs": "vercel logs",
+    "env:pull": "vercel env pull .env.local",
+    "env:add": "vercel env add",
+    "setup": "node scripts/setup.js",
+    "validate": "node scripts/validate-deployment.js",
+    "health-check": "node scripts/health-check.js",
+    "backup-kb": "node scripts/backup-knowledge-base.js",
+    "restore-kb": "node scripts/restore-knowledge-base.js"
+  },
+  "keywords": [
+    "ai",
+    "chatbot",
+    "customer-support",
+    "responsive",
+    "vercel"
+  ],
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
+  "devDependencies": {
+    "vercel": "^37.0.0"
+  }
+}
