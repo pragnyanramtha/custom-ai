@@ -1,0 +1,65 @@
+{
+  "entries": [
+    {
+      "id": "sample-1",
+      "key": "Service Pricing",
+      "value": "Our architectural services start at $150/hour for residential projects and $200/hour for commercial projects. We offer package deals for complete home designs starting at $5,000. Custom commercial building designs start at $15,000 depending on complexity and size.",
+      "tags": [
+        "pricing",
+        "services",
+        "residential",
+        "commercial",
+        "rates"
+      ],
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "sample-2",
+      "key": "Design Process",
+      "value": "Our design process includes: 1) Initial consultation and site analysis, 2) Conceptual design and sketches, 3) Detailed architectural drawings, 4) 3D renderings and visualizations, 5) Construction documentation, 6) Permit assistance and submissions. The typical timeline is 4-8 weeks for residential projects and 8-16 weeks for commercial projects.",
+      "tags": [
+        "process",
+        "timeline",
+        "design",
+        "consultation",
+        "permits"
+      ],
+      "createdAt": "2024-01-15T10:35:00Z",
+      "updatedAt": "2024-01-15T10:35:00Z"
+    },
+    {
+      "id": "sample-3",
+      "key": "Contact Information",
+      "value": "You can reach us at: Phone: (555) 123-4567, Email: info@architecturefirm.com, Office hours: Monday-Friday 9AM-6PM, Saturday 10AM-4PM. We're located at 123 Design Street, Architecture City, AC 12345. For urgent matters outside business hours, please email us and we'll respond within 24 hours.",
+      "tags": [
+        "contact",
+        "phone",
+        "email",
+        "hours",
+        "location",
+        "urgent"
+      ],
+      "createdAt": "2024-01-15T10:40:00Z",
+      "updatedAt": "2024-01-15T10:40:00Z"
+    },
+    {
+      "id": "sample-4",
+      "key": "Specializations",
+      "value": "We specialize in sustainable architecture, modern residential homes, commercial office buildings, retail spaces, and historic building renovations. Our team has expertise in green building certifications (LEED), energy-efficient design, and smart home integration. We also offer interior design consultation services.",
+      "tags": [
+        "specializations",
+        "sustainable",
+        "modern",
+        "commercial",
+        "residential",
+        "green",
+        "LEED",
+        "renovation"
+      ],
+      "createdAt": "2024-01-15T10:45:00Z",
+      "updatedAt": "2024-01-15T10:45:00Z"
+    }
+  ],
+  "lastUpdated": "2025-09-11T13:58:39.015Z"
+}
