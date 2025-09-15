@@ -1,6 +1,5 @@
 import KnowledgeBase from '../../lib/knowledgeBase.js';
 
-// Initialize knowledge base
 let knowledgeBase;
 
 function initializeKnowledgeBase() {
@@ -9,34 +8,45 @@ function initializeKnowledgeBase() {
   }
 }
 
-export default async function handler(req, res) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+export default async function handler(req) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 
-  // Handle preflight requests
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
   }
 
-  // Only allow GET requests
   if (req.method !== 'GET') {
-    return res.status(405).json({ 
-      error: true, 
-      message: 'Method not allowed',
-      code: 'METHOD_NOT_ALLOWED'
-    });
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ 
+        error: true, 
+        message: 'Method not allowed',
+        code: 'METHOD_NOT_ALLOWED'
+      })
+    };
   }
 
-  const { q: query, limit } = req.query;
+  const { q: query, limit } = req.queryStringParameters;
 
   if (!query || query.trim() === '') {
-    return res.status(400).json({
-      error: true,
-      message: 'Search query is required',
-      code: 'MISSING_QUERY'
-    });
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({
+        error: true,
+        message: 'Search query is required',
+        code: 'MISSING_QUERY'
+      })
+    };
   }
 
   try {
@@ -45,19 +55,27 @@ export default async function handler(req, res) {
     const searchLimit = limit ? parseInt(limit) : 10;
     const results = await knowledgeBase.searchEntries(query, searchLimit);
 
-    return res.status(200).json({
-      query: query.trim(),
-      results,
-      total: results.length,
-      timestamp: new Date().toISOString()
-    });
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        query: query.trim(),
+        results,
+        total: results.length,
+        timestamp: new Date().toISOString()
+      })
+    };
   } catch (error) {
     console.error('Search API Error:', error);
-    return res.status(500).json({
-      error: true,
-      message: 'Search operation failed',
-      code: 'SEARCH_ERROR',
-      timestamp: new Date().toISOString()
-    });
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({
+        error: true,
+        message: 'Search operation failed',
+        code: 'SEARCH_ERROR',
+        timestamp: new Date().toISOString()
+      })
+    };
   }
 }

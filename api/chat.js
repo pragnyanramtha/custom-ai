@@ -15,60 +15,65 @@ function initializeServices() {
   }
 }
 
-export default async function handler(req, res) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+export default async function handler(req) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 
-  // Handle preflight requests
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
   }
 
-  // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({ 
-      error: true, 
-      message: 'Method not allowed',
-      code: 'METHOD_NOT_ALLOWED'
-    });
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ 
+        error: true, 
+        message: 'Method not allowed',
+        code: 'METHOD_NOT_ALLOWED'
+      })
+    };
   }
 
   try {
     initializeServices();
 
-    const { message, sessionId } = req.body;
+    const { message, sessionId } = JSON.parse(req.body);
 
-    // Validate input
     if (!message || typeof message !== 'string' || message.trim() === '') {
-      return res.status(400).json({
-        error: true,
-        message: 'Message is required and must be a non-empty string',
-        code: 'INVALID_MESSAGE'
-      });
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          error: true,
+          message: 'Message is required and must be a non-empty string',
+          code: 'INVALID_MESSAGE'
+        })
+      };
     }
 
     const userMessage = message.trim();
     const chatSessionId = sessionId || generateSessionId();
 
-    // Get chat history
     const history = chatHistories[chatSessionId] || [];
 
-    // Search knowledge base for relevant context
     const knowledgeContext = await knowledgeBase.getRelevantContext(userMessage, 3);
     
-    // Generate AI response
     const aiResult = await geminiService.generateChatResponse(userMessage, history, knowledgeContext);
 
-    // Update chat history
     chatHistories[chatSessionId] = [
       ...history,
       { role: "user", parts: [{ text: userMessage }] },
       { role: "model", parts: [{ text: aiResult.response }] },
     ];
 
-    // Prepare response
     const response = {
       response: aiResult.response,
       timestamp: new Date().toISOString(),
@@ -78,42 +83,53 @@ export default async function handler(req, res) {
       knowledgeUsed: knowledgeContext ? true : false
     };
 
-    return res.status(200).json(response);
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify(response)
+    };
 
   } catch (error) {
     console.error('Chat API Error:', error);
 
-    // Handle specific error types
     if (error.message.includes('All Gemini model tiers have reached their limits')) {
-      return res.status(503).json({
-        error: true,
-        message: 'AI service is temporarily unavailable due to usage limits. Please try again later.',
-        code: 'SERVICE_UNAVAILABLE',
-        retryAfter: 3600 // 1 hour
-      });
+      return {
+        statusCode: 503,
+        headers,
+        body: JSON.stringify({
+          error: true,
+          message: 'AI service is temporarily unavailable due to usage limits. Please try again later.',
+          code: 'SERVICE_UNAVAILABLE',
+          retryAfter: 3600
+        })
+      };
     }
 
     if (error.message.includes('GEMINI_API_KEY')) {
-      return res.status(500).json({
-        error: true,
-        message: 'AI service configuration error. Please contact support.',
-        code: 'CONFIGURATION_ERROR'
-      });
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          error: true,
+          message: 'AI service configuration error. Please contact support.',
+          code: 'CONFIGURATION_ERROR'
+        })
+      };
     }
 
-    // Generic error response
-    return res.status(500).json({
-      error: true,
-      message: 'An unexpected error occurred. Please try again.',
-      code: 'INTERNAL_ERROR',
-      timestamp: new Date().toISOString()
-    });
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({
+        error: true,
+        message: 'An unexpected error occurred. Please try again.',
+        code: 'INTERNAL_ERROR',
+        timestamp: new Date().toISOString()
+      })
+    };
   }
 }
 
-/**
- * Generate a unique session ID
- */
 function generateSessionId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
