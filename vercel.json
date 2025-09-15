@@ -1,7 +1,5 @@
 {
-  "engines": {
-    "node": "22.x"
-  },
+  
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "devCommand": "vite --port 3001",
