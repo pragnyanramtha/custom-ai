@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "AI-powered customer support chatbot with responsive frontend",
   "type": "module",
-  "engines": {
-    "node": "22.x"
-  },
   "scripts": {
     "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:api\"",
     "dev:frontend": "vite --port 3000",
@@ -14,11 +11,11 @@
     "preview": "vite preview",
     "test": "npm run build && node test-api.js && node test-kb-implementation.js",
     "test:integration": "npm run build && node test-react-integration.js",
-    "deploy": "vercel --prod",
-    "deploy:preview": "vercel",
-    "logs": "vercel logs",
-    "env:pull": "vercel env pull .env.local",
-    "env:add": "vercel env add",
+    "deploy": "netlify deploy --prod",
+    "deploy:preview": "netlify deploy",
+    "logs": "netlify logs",
+    "env:pull": "netlify env:pull .env.local",
+    "env:add": "netlify env:set",
     "setup": "node scripts/setup.js",
     "validate": "node scripts/validate-deployment.js",
     "validate:react": "node validate-react-deployment.cjs",
@@ -31,7 +28,7 @@
     "chatbot",
     "customer-support",
     "responsive",
-    "vercel"
+    "netlify"
   ],
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
@@ -92,7 +89,6 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
     "tailwindcss-animate": "^1.0.7",
-    "vercel": "^37.0.0",
     "vite": "^5.4.20"
   }
 }
