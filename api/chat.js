@@ -1,5 +1,5 @@
-const GeminiService = require('../lib/geminiService');
-const KnowledgeBase = require('../lib/knowledgeBase');
+import GeminiService from '../lib/geminiService.js';
+import KnowledgeBase from '../lib/knowledgeBase.js';
 
 // Initialize services
 let geminiService;
