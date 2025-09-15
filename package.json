@@ -4,7 +4,7 @@
   "description": "AI-powered customer support chatbot with responsive frontend",
   "type": "module",
   "engines": {
-    "node": "22.x"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "concurrently \"npm:dev:frontend\" \"npm:dev:api\"",
