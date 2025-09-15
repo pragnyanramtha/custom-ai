@@ -1,4 +1,4 @@
-const KnowledgeBase = require('../../lib/knowledgeBase');
+import KnowledgeBase from '../../lib/knowledgeBase.js';
 
 // Initialize knowledge base
 let knowledgeBase;
