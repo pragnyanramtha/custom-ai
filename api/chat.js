@@ -4,6 +4,7 @@ import KnowledgeBase from '../lib/knowledgeBase.js';
 // Initialize services
 let geminiService;
 let knowledgeBase;
+const chatHistories = {};
 
 function initializeServices() {
   if (!geminiService) {
@@ -51,11 +52,21 @@ export default async function handler(req, res) {
     const userMessage = message.trim();
     const chatSessionId = sessionId || generateSessionId();
 
+    // Get chat history
+    const history = chatHistories[chatSessionId] || [];
+
     // Search knowledge base for relevant context
     const knowledgeContext = await knowledgeBase.getRelevantContext(userMessage, 3);
     
     // Generate AI response
-    const aiResult = await geminiService.generateResponse(userMessage, knowledgeContext);
+    const aiResult = await geminiService.generateChatResponse(userMessage, history, knowledgeContext);
+
+    // Update chat history
+    chatHistories[chatSessionId] = [
+      ...history,
+      { role: "user", parts: [{ text: userMessage }] },
+      { role: "model", parts: [{ text: aiResult.response }] },
+    ];
 
     // Prepare response
     const response = {
