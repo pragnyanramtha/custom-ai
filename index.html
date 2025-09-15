@@ -1,57 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Customer Support - Architectural Services</title>
-    <link rel="stylesheet" href="styles/chat.css">
-</head>
-<body>
-    <div class="chat-container">
-        <header class="chat-header">
-            <h1>AI Customer Support</h1>
-            <p>Ask me anything about our architectural services</p>
-        </header>
-        
-        <div class="chat-messages" id="chatMessages">
-            <div class="message ai-message">
-                <div class="message-content">
-                    <p>Hello! I'm here to help you with questions about our architectural services. How can I assist you today?</p>
-                </div>
-                <div class="message-time" id="welcomeTime"></div>
-            </div>
-        </div>
-        
-        <div class="chat-input-container">
-            <div class="chat-input-wrapper">
-                <textarea 
-                    id="messageInput" 
-                    placeholder="Type your message here..." 
-                    rows="1"
-                    maxlength="1000"
-                ></textarea>
-                <button id="sendButton" class="send-button" disabled>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22,2 15,22 11,13 2,9"></polygon>
-                    </svg>
-                </button>
-            </div>
-            <div class="input-footer">
-                <span class="character-count">0/1000</span>
-            </div>
-        </div>
-        
-        <div class="loading-indicator" id="loadingIndicator">
-            <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <span>AI is typing...</span>
-        </div>
-    </div>
-    
-    <script src="js/chat.js"></script>
-</body>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
